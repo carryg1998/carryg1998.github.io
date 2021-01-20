@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/4 | Blog</title>
+  <title>毕设：飞鸟图片识别 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2019/04/index.html">
+  <meta name="description" content="毕设：飞鸟图片识别主要运用YOLO,CNN,Flask搭建神经网络识别飞鸟图片种类的服务">
+<meta name="keywords" content="YOLO,CNN,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="毕设：飞鸟图片识别">
+<meta property="og:url" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="毕设：飞鸟图片识别主要运用YOLO,CNN,Flask搭建神经网络识别飞鸟图片种类的服务">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/2.png">
+<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/1.png">
+<meta property="og:updated_time" content="2021-01-20T03:18:26.765Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="毕设：飞鸟图片识别">
+<meta name="twitter:description" content="毕设：飞鸟图片识别主要运用YOLO,CNN,Flask搭建神经网络识别飞鸟图片种类的服务">
+<meta name="twitter:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/2.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -140,64 +148,187 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-毕设：飞鸟图片识别" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/29/First-Blog/" class="archive-article-date">
-  	<time datetime="2019-04-29T12:30:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/29/First-Blog/">First Blog</a>
+    <h1 class="article-title" itemprop="name">
+      毕设：飞鸟图片识别
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2021/01/20/毕设：飞鸟图片识别/" class="archive-article-date">
+  	<time datetime="2021-01-20T02:24:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="毕设：飞鸟图片识别"><a href="#毕设：飞鸟图片识别" class="headerlink" title="毕设：飞鸟图片识别"></a>毕设：飞鸟图片识别</h2><p>主要运用YOLO,CNN,Flask搭建神经网络识别飞鸟图片种类的服务<br><a id="more"></a></p>
+<h2 id="1月20日"><a href="#1月20日" class="headerlink" title="1月20日"></a>1月20日</h2><h1 id="YOLOv3的学习"><a href="#YOLOv3的学习" class="headerlink" title="YOLOv3的学习"></a>YOLOv3的学习</h1><p>YOLO的作用主要是识别图片中的物体位置并进行分类，YOLOv3主要通过将图片划分为多个网格，然后定位物体在网格中的范围，其中结果又52<em>52，26</em>26,13<em>13的网格，分别对应小物体，中等物体和大物体<br><img src="/2021/01/20/毕设：飞鸟图片识别/2.png" alt="YOLOv3的图片识别"><br>首先了解神经网络结构，利用了DarkNet53结构，其结构主要如下<br>(图源：<a href="https://blog.csdn.net/weixin_44791964/article/details/105310627?ops_request_misc=%25257B%252522request%25255Fid%252522%25253A%252522161110983216780265465116%252522%25252C%252522scm%252522%25253A%25252220140713.130102334.pc%25255Fblog.%252522%25257D&amp;request_id=161110983216780265465116&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v2~rank_v29-2-105310627.pc_v2_rank_blog_default&amp;utm_term=YOLO" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44791964/article/details/105310627?ops_request_misc=%25257B%252522request%25255Fid%252522%25253A%252522161110983216780265465116%252522%25252C%252522scm%252522%25253A%25252220140713.130102334.pc%25255Fblog.%252522%25257D&amp;request_id=161110983216780265465116&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v2~rank_v29-2-105310627.pc_v2_rank_blog_default&amp;utm_term=YOLO</a>)<br><img src="/2021/01/20/毕设：飞鸟图片识别/1.png" alt="DarkNet53"><br>个人经验：在学习一个新的神经网络的时候应该把其内部结构看做一个黑盒，首先了解其输出结果的含义。<br>YOLOv3结果是3,3,75的结果，其中75可分解为3</em>(20+1+4)<br>其中3代表三种物体类型，即识别大物体，中物体和小物体<br>20为物体种类(鸡鸭鱼人)<br>1为该位置是否有物体的置信度<br>4代表具体位置(x，y坐标，长和宽)<br>DarkNet53的主要特点：<br>1.使用了残差网络(Residual block)<br>个人理解：传统的神经网络为了追求更高的准确率往往会增加网络深度，这就可能导致了梯度爆炸的问题，解决方法就是加入正则化层(Batch Normalization)，但是在增加深度以后并没有获得更好的准确率，随后引入了残差网络，具体原理还没明白，后期实操以后如果会了再写，这里先把度娘百科贴上</p>
+<p>深度残差网络。如果深层网络的后面那些层是恒等映射，那么模型就退化为一个浅层网络。那当前要解决的就是学习恒等映射函数了。 但是直接让一些层去拟合一个潜在的恒等映射函数 ，比较困难，这可能就是深层网络难以训练的原因。但是，如果把网络设计为 ,如图1。我们可以转换为学习一个残差函数 。 只要 ，就构成了一个恒等映射 。 而且，拟合残差肯定更加容易。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/zhifubao.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/weixin.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">First</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">YOLO</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">happy</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNN</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Flask</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/04/04/腾讯安全竞赛机器学习/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">腾讯安全竞赛机器学习</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -220,8 +351,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
