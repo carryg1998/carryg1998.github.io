@@ -18,7 +18,8 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/2.png">
 <meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/1.jpg">
-<meta property="og:updated_time" content="2021-01-28T14:30:53.658Z">
+<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/3.jpg">
+<meta property="og:updated_time" content="2021-01-29T15:07:32.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="毕设：飞鸟图片识别">
 <meta name="twitter:description" content="毕设：飞鸟图片识别主要运用YOLO,CNN,Flask搭建神经网络识别飞鸟图片种类的服务">
@@ -174,6 +175,7 @@
 <h2 id="1月24日"><a href="#1月24日" class="headerlink" title="1月24日"></a>1月24日</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;今天没整啥有用的，纯把网络结构写完了，并且传入例子可以跑出结果了，附上代码吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">def conv2d(filter_in, filter_out, kernel_size):</span><br><span class="line">    pad = (kernel_size - 1) // 2 if kernel_size else 0</span><br><span class="line">    return nn.Sequential(OrderedDict([</span><br><span class="line">        (&quot;conv&quot;, nn.Conv2d(filter_in, filter_out, kernel_size=kernel_size, stride=1, padding=pad, bias=False)),</span><br><span class="line">        (&quot;bn&quot;, nn.BatchNorm2d(filter_out)),</span><br><span class="line">        (&quot;relu&quot;, nn.LeakyReLU(0.1)),</span><br><span class="line">    ]))</span><br><span class="line"></span><br><span class="line">def make_last_layers(filters_list, in_filters, out_filter):</span><br><span class="line">    m = nn.ModuleList([</span><br><span class="line">        conv2d(in_filters, filters_list[0], 1),</span><br><span class="line">        conv2d(filters_list[0], filters_list[1], 3),</span><br><span class="line">        conv2d(filters_list[1], filters_list[0], 1),</span><br><span class="line">        conv2d(filters_list[0], filters_list[1], 3),</span><br><span class="line">        conv2d(filters_list[1], filters_list[0], 1),</span><br><span class="line">        conv2d(filters_list[0], filters_list[1], 3),</span><br><span class="line">        nn.Conv2d(filters_list[1], out_filter, kernel_size=1,</span><br><span class="line">                                        stride=1, padding=0, bias=True)</span><br><span class="line">    ])</span><br><span class="line">    return m</span><br><span class="line"></span><br><span class="line">class YoloBody(nn.Module):</span><br><span class="line">    def __init__(self, config):</span><br><span class="line">        super(YoloBody, self).__init__()</span><br><span class="line">        self.config = config</span><br><span class="line">        </span><br><span class="line">        #----------------------------------------------------------</span><br><span class="line">        #       获得DarkNet网络</span><br><span class="line">        #----------------------------------------------------------</span><br><span class="line">        self.DarkNet = darknet53(None)</span><br><span class="line">        </span><br><span class="line">        #获得每一层DarkNet的输出通道数</span><br><span class="line">        out_filters = self.DarkNet.layers_out_filters</span><br><span class="line">        </span><br><span class="line">        #---------------------------------------------------------</span><br><span class="line">        #      计算最后输出的通道数</span><br><span class="line">        #      4+1+classes</span><br><span class="line">        #---------------------------------------------------------</span><br><span class="line">        final_out_filter1 = len(self.config[&quot;yolo&quot;][&quot;anchors&quot;][0]) * (5 + self.config[&quot;yolo&quot;][&quot;classes&quot;])</span><br><span class="line">        self.last_layer1 = make_last_layers([512,1024], out_filters[-1], final_out_filter1)</span><br><span class="line">        </span><br><span class="line">        final_out_filter2 = len(self.config[&quot;yolo&quot;][&quot;anchors&quot;][1]) * (5 + self.config[&quot;yolo&quot;][&quot;classes&quot;])</span><br><span class="line">        self.last_layer2_conv = conv2d(512, 256, 1)</span><br><span class="line">        self.last_layer2_upsample = nn.Upsample(scale_factor=2, mode=&apos;nearest&apos;)</span><br><span class="line">        self.last_layer2 = make_last_layers([256,512], 768, final_out_filter2)</span><br><span class="line">        </span><br><span class="line">        final_out_filter3 = len(self.config[&quot;yolo&quot;][&quot;anchors&quot;][2]) * (5 + self.config[&quot;yolo&quot;][&quot;classes&quot;])</span><br><span class="line">        self.last_layer3_conv = conv2d(256, 128, 1)</span><br><span class="line">        self.last_layer3_upsample = nn.Upsample(scale_factor=2, mode=&apos;nearest&apos;)</span><br><span class="line">        self.last_layer3 = make_last_layers([128,256], 384, final_out_filter3)</span><br><span class="line">        </span><br><span class="line">    def forward(self, x):</span><br><span class="line">        #-----------------------------------------------------</span><br><span class="line">        #       将输出分成俩个，一个是结果</span><br><span class="line">        #       一个进行上采样</span><br><span class="line">        #-----------------------------------------------------</span><br><span class="line">        def _branch(last_layer, layer_in):</span><br><span class="line">            for i, e in enumerate(last_layer):</span><br><span class="line">                layer_in = e(layer_in)</span><br><span class="line">                if i == 4:</span><br><span class="line">                    out_branch = layer_in</span><br><span class="line">            return layer_in, out_branch</span><br><span class="line">            </span><br><span class="line">        x3, x2, x1 = self.DarkNet(x)</span><br><span class="line">            </span><br><span class="line">        #------------------------------------------------------</span><br><span class="line">        #         第一个特征层(大物体)</span><br><span class="line">        #         输出为13*13*1024</span><br><span class="line">        #------------------------------------------------------</span><br><span class="line">        out1, out1_branch = _branch(self.last_layer1, x1)</span><br><span class="line">            </span><br><span class="line">        x2_in = self.last_layer2_conv(out1_branch)</span><br><span class="line">        x2_in = self.last_layer2_upsample(x2_in)</span><br><span class="line">        </span><br><span class="line">        x2_in = torch.cat([x2_in, x2], 1)</span><br><span class="line">        </span><br><span class="line">        out2, out2_branch = _branch(self.last_layer2, x2_in)</span><br><span class="line">        </span><br><span class="line">        x3_in = self.last_layer3_conv(out2_branch)</span><br><span class="line">        x3_in = self.last_layer2_upsample(x3_in)</span><br><span class="line">        </span><br><span class="line">        x3_in = torch.cat([x3_in, x3], 1)</span><br><span class="line">        </span><br><span class="line">        out3, _ = _branch(self.last_layer3, x3_in)</span><br><span class="line">        return out1, out2, out3</span><br></pre></td></tr></table></figure></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在原本darknet的基础上进行五层卷积，将三个输出下采样得到最终结果13<em>13</em>75，26<em>26</em>75，52<em>52</em>75</p>
 <h2 id="1月28日"><a href="#1月28日" class="headerlink" title="1月28日"></a>1月28日</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在大体掌握网络结构以后，提出以下构想：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.因为样本图片中大部分只有一只鸟类为目标物体，决定取消掉原本YOLOv3结果中的三个先验框，也就是将结果的通道数缩小为25。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.将最终检测出的物体的先验框范围取出并进行resize后传入CNN网络进行第二次分类，并在得到结果后与YOLO的分类结果进行模型融合。</p>
+<h2 id="1月29日"><a href="#1月29日" class="headerlink" title="1月29日"></a>1月29日</h2><h1 id="VOC数据集以及xml的读取"><a href="#VOC数据集以及xml的读取" class="headerlink" title="VOC数据集以及xml的读取"></a>VOC数据集以及xml的读取</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VOC数据集包括Annotations文件夹和JPEGImages文件夹：<br>JPEGImages文件夹存放图片<br>Annotations文件夹为每个图片配置一个xml文件，负责存储图片中的物体的位置以及bonding box的位置<br>如图所示<br><img src="/2021/01/20/毕设：飞鸟图片识别/3.jpg" alt="图片"><br>其对应xml如下，每有一个物体便有一个object标签，其中包括name和bonding box的四个角的坐标，这些属性都将作为训练中的target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">&lt;annotation&gt;</span><br><span class="line">	&lt;folder&gt;VOC2007&lt;/folder&gt;</span><br><span class="line">	&lt;filename&gt;000005.jpg&lt;/filename&gt;</span><br><span class="line">	&lt;source&gt;</span><br><span class="line">		&lt;database&gt;The VOC2007 Database&lt;/database&gt;</span><br><span class="line">		&lt;annotation&gt;PASCAL VOC2007&lt;/annotation&gt;</span><br><span class="line">		&lt;image&gt;flickr&lt;/image&gt;</span><br><span class="line">		&lt;flickrid&gt;325991873&lt;/flickrid&gt;</span><br><span class="line">	&lt;/source&gt;</span><br><span class="line">	&lt;owner&gt;</span><br><span class="line">		&lt;flickrid&gt;archintent louisville&lt;/flickrid&gt;</span><br><span class="line">		&lt;name&gt;?&lt;/name&gt;</span><br><span class="line">	&lt;/owner&gt;</span><br><span class="line">	&lt;size&gt;</span><br><span class="line">		&lt;width&gt;500&lt;/width&gt;</span><br><span class="line">		&lt;height&gt;375&lt;/height&gt;</span><br><span class="line">		&lt;depth&gt;3&lt;/depth&gt;</span><br><span class="line">	&lt;/size&gt;</span><br><span class="line">	&lt;segmented&gt;0&lt;/segmented&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Rear&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;0&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;0&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;263&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;211&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;324&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;339&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;0&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;0&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;165&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;264&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;253&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;372&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;1&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;1&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;5&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;244&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;67&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;374&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;0&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;0&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;241&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;194&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;295&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;299&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;1&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;1&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;277&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;186&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;312&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;220&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">&lt;/annotation&gt;</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -445,6 +447,26 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">First</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">happy</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">LSTM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
               </li>
              
@@ -465,35 +487,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">LSTM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CNN</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">First</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">happy</a>
+                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -502,10 +496,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -518,6 +508,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">简要</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CNN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Flask</a>
               </li>
              
               <li class="article-tag-list-item">
