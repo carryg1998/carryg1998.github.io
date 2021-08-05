@@ -19,10 +19,10 @@
 <meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/2.png">
 <meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/3.jpg">
-<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/4.jpg">
-<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/5.jpg">
-<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/6.jpg">
-<meta property="og:updated_time" content="2021-05-11T07:25:36.059Z">
+<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/4.png">
+<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/5.png">
+<meta property="og:image" content="http://yoursite.com/2021/01/20/毕设：飞鸟图片识别/6.png">
+<meta property="og:updated_time" content="2021-08-05T02:47:21.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="毕设：飞鸟图片识别">
 <meta name="twitter:description" content="毕设：飞鸟图片识别主要运用YOLO,CNN,Flask搭建神经网络识别飞鸟图片种类的服务">
@@ -179,8 +179,8 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在原本darknet的基础上进行五层卷积，将三个输出下采样得到最终结果13<em>13</em>75，26<em>26</em>75，52<em>52</em>75</p>
 <h2 id="1月28日"><a href="#1月28日" class="headerlink" title="1月28日"></a>1月28日</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在大体掌握网络结构以后，提出以下构想：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.因为样本图片中大部分只有一只鸟类为目标物体，决定取消掉原本YOLOv3结果中的三个先验框，也就是将结果的通道数缩小为25。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.将最终检测出的物体的先验框范围取出并进行resize后传入CNN网络进行第二次分类，并在得到结果后与YOLO的分类结果进行模型融合。</p>
 <h2 id="1月29日"><a href="#1月29日" class="headerlink" title="1月29日"></a>1月29日</h2><h1 id="VOC数据集以及xml的读取"><a href="#VOC数据集以及xml的读取" class="headerlink" title="VOC数据集以及xml的读取"></a>VOC数据集以及xml的读取</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VOC数据集包括Annotations文件夹和JPEGImages文件夹：<br>JPEGImages文件夹存放图片<br>Annotations文件夹为每个图片配置一个xml文件，负责存储图片中的物体的位置以及bonding box的位置<br>如图所示<br><img src="/2021/01/20/毕设：飞鸟图片识别/3.jpg" alt="图片"><br>其对应xml如下，每有一个物体便有一个object标签，其中包括name和bonding box的四个角的坐标，这些属性都将作为训练中的target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">&lt;annotation&gt;</span><br><span class="line">	&lt;folder&gt;VOC2007&lt;/folder&gt;</span><br><span class="line">	&lt;filename&gt;000005.jpg&lt;/filename&gt;</span><br><span class="line">	&lt;source&gt;</span><br><span class="line">		&lt;database&gt;The VOC2007 Database&lt;/database&gt;</span><br><span class="line">		&lt;annotation&gt;PASCAL VOC2007&lt;/annotation&gt;</span><br><span class="line">		&lt;image&gt;flickr&lt;/image&gt;</span><br><span class="line">		&lt;flickrid&gt;325991873&lt;/flickrid&gt;</span><br><span class="line">	&lt;/source&gt;</span><br><span class="line">	&lt;owner&gt;</span><br><span class="line">		&lt;flickrid&gt;archintent louisville&lt;/flickrid&gt;</span><br><span class="line">		&lt;name&gt;?&lt;/name&gt;</span><br><span class="line">	&lt;/owner&gt;</span><br><span class="line">	&lt;size&gt;</span><br><span class="line">		&lt;width&gt;500&lt;/width&gt;</span><br><span class="line">		&lt;height&gt;375&lt;/height&gt;</span><br><span class="line">		&lt;depth&gt;3&lt;/depth&gt;</span><br><span class="line">	&lt;/size&gt;</span><br><span class="line">	&lt;segmented&gt;0&lt;/segmented&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Rear&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;0&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;0&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;263&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;211&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;324&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;339&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;0&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;0&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;165&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;264&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;253&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;372&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;1&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;1&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;5&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;244&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;67&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;374&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;0&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;0&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;241&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;194&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;295&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;299&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">	&lt;object&gt;</span><br><span class="line">		&lt;name&gt;chair&lt;/name&gt;</span><br><span class="line">		&lt;pose&gt;Unspecified&lt;/pose&gt;</span><br><span class="line">		&lt;truncated&gt;1&lt;/truncated&gt;</span><br><span class="line">		&lt;difficult&gt;1&lt;/difficult&gt;</span><br><span class="line">		&lt;bndbox&gt;</span><br><span class="line">			&lt;xmin&gt;277&lt;/xmin&gt;</span><br><span class="line">			&lt;ymin&gt;186&lt;/ymin&gt;</span><br><span class="line">			&lt;xmax&gt;312&lt;/xmax&gt;</span><br><span class="line">			&lt;ymax&gt;220&lt;/ymax&gt;</span><br><span class="line">		&lt;/bndbox&gt;</span><br><span class="line">	&lt;/object&gt;</span><br><span class="line">&lt;/annotation&gt;</span><br></pre></td></tr></table></figure></p>
-<h2 id="不好意思写日期了"><a href="#不好意思写日期了" class="headerlink" title="不好意思写日期了"></a>不好意思写日期了</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于长时间没有进展，也一直没写博客，现在基本做完了，虽然开始构思很多但后来发现差不多得了。。。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;先展示一下最终效果吧。<br><img src="/2021/01/20/毕设：飞鸟图片识别/4.jpg" alt="图片"></p>
-<h1 id="在以下总结毕设中的经验与收获吧"><a href="#在以下总结毕设中的经验与收获吧" class="headerlink" title="在以下总结毕设中的经验与收获吧"></a>在以下总结毕设中的经验与收获吧</h1><p>1.关于先验框（anchors）的作用<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YOLOv3作为最经典的one-stage识别算法之一，以Darknet53作为骨干网络拥有强大的特征提取能力，已经有足够的识别能力，但是在目标定位方面单纯的<br>以回归的方式去预测位置参数效果并不是很好，YOLOv1没有使用先验框，直接使特征矩阵通过全连接层预测结果，发现对于小物体的识别能力很差。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YOLOv3在三种大小的特征矩阵中各加入三个先验框，配置如下图<br><img src="/2021/01/20/毕设：飞鸟图片识别/5.jpg" alt="图片"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过先验框的方式不同物体识别的效率更好，可是适应不同大小和形状的物体。<br>2.关于残差边<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在人们传统的思路中，卷积深度越多，特征提取越多，网络效果更好，但是后来实验证明在深度越多以后反而网络的识别效果会下降，发生网络退化的现<br>象，随后人们设计了残差网络的结构。<br><img src="/2021/01/20/毕设：飞鸟图片识别/6.jpg" alt="图片"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们知道，随着卷积深度的增加，特征提取更多，但包含的图像信息可能越来越少，将结果与卷积前的矩阵相加可以保证得到结果的图像信息至少大于输<br>入时的图像信息量，有效避免了网络退化的问题。<br>3.关于冻结训练<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始直接将代码写完en冲的时候，没过多久损失就达到了几千亿，这是很典型的梯度爆炸的现象，由于Darknet卷积深度太多，一个很小的梯度就可能经<br>过n层的反向传播成指数型增长，在前几次训练时冻结backbone，不更新其权重，在后面再完全解冻就可以很好地解决这个问题。<br>4.关于迁移学习<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;简单的50次epoch后虽然损失函数的结果已经很低了但是依然无法检测到物体，但是还是不想减小阈值，后来发现在原项目中读取了用imagenet训练的预<br>训练权重，在读取以后训练同样50次后结果便以很显著。随后尝试原项目中不读取预训练权重，同样经过50个epoch得到的结果依然很差，再次证明迁移学习方法的可行性与高效。</p>
+<h2 id="不好意思写日期了"><a href="#不好意思写日期了" class="headerlink" title="不好意思写日期了"></a>不好意思写日期了</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于长时间没有进展，也一直没写博客，现在基本做完了，虽然开始构思很多但后来发现差不多得了。。。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;先展示一下最终效果吧。<br><img src="/2021/01/20/毕设：飞鸟图片识别/4.png" alt="图片"></p>
+<h1 id="在以下总结毕设中的经验与收获吧"><a href="#在以下总结毕设中的经验与收获吧" class="headerlink" title="在以下总结毕设中的经验与收获吧"></a>在以下总结毕设中的经验与收获吧</h1><p>1.关于先验框（anchors）的作用<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YOLOv3作为最经典的one-stage识别算法之一，以Darknet53作为骨干网络拥有强大的特征提取能力，已经有足够的识别能力，但是在目标定位方面单纯的<br>以回归的方式去预测位置参数效果并不是很好，YOLOv1没有使用先验框，直接使特征矩阵通过全连接层预测结果，发现对于小物体的识别能力很差。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YOLOv3在三种大小的特征矩阵中各加入三个先验框，配置如下图<br><img src="/2021/01/20/毕设：飞鸟图片识别/5.png" alt="图片"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过先验框的方式不同物体识别的效率更好，可是适应不同大小和形状的物体。<br>2.关于残差边<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在人们传统的思路中，卷积深度越多，特征提取越多，网络效果更好，但是后来实验证明在深度越多以后反而网络的识别效果会下降，发生网络退化的现<br>象，随后人们设计了残差网络的结构。<br><img src="/2021/01/20/毕设：飞鸟图片识别/6.png" alt="图片"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们知道，随着卷积深度的增加，特征提取更多，但包含的图像信息可能越来越少，将结果与卷积前的矩阵相加可以保证得到结果的图像信息至少大于输<br>入时的图像信息量，有效避免了网络退化的问题。<br>3.关于冻结训练<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始直接将代码写完en冲的时候，没过多久损失就达到了几千亿，这是很典型的梯度爆炸的现象，由于Darknet卷积深度太多，一个很小的梯度就可能经<br>过n层的反向传播成指数型增长，在前几次训练时冻结backbone，不更新其权重，在后面再完全解冻就可以很好地解决这个问题。<br>4.关于迁移学习<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;简单的50次epoch后虽然损失函数的结果已经很低了但是依然无法检测到物体，但是还是不想减小阈值，后来发现在原项目中读取了用imagenet训练的预<br>训练权重，在读取以后训练同样50次后结果便以很显著。随后尝试原项目中不读取预训练权重，同样经过50个epoch得到的结果依然很差，再次证明迁移学习方法的可行性与高效。</p>
 
       
 
@@ -302,6 +302,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2021/08/05/mmdetection配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          mmdetection配置
+        
+      </div>
+    </a>
   
   
     <a href="/2020/04/04/腾讯安全竞赛机器学习/" id="article-nav-older" class="article-nav-link-wrap">
@@ -460,6 +469,22 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">LSTM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
               </li>
              
@@ -468,35 +493,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CNN</a>
+                <a href="javascript:void(0)" class="js-tag color5">目标检测</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wxml</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">LSTM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+                <a href="javascript:void(0)" class="js-tag color2">mmdetection</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -512,7 +517,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
+                <a href="javascript:void(0)" class="js-tag color5">wxml</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -533,6 +542,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CNN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Flask</a>
               </li>
             
             <div class="clearfix"></div>
