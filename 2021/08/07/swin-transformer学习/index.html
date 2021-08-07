@@ -6,20 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>openpyxl | Blog</title>
+  <title>swin-transformer学习 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于Pyhton将数据写入excel表今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。">
-<meta name="keywords" content="Pyhton,openpyxl,Big-Digital">
+  <meta name="description" content="由于只是点实在是太多了，做一下swin-transformer学习的记录">
+<meta name="keywords" content="swin-transformer,detection">
 <meta property="og:type" content="article">
-<meta property="og:title" content="openpyxl">
-<meta property="og:url" content="http://yoursite.com/2019/05/02/openpyxl/index.html">
+<meta property="og:title" content="swin-transformer学习">
+<meta property="og:url" content="http://yoursite.com/2021/08/07/swin-transformer学习/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="关于Pyhton将数据写入excel表今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。">
+<meta property="og:description" content="由于只是点实在是太多了，做一下swin-transformer学习的记录">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-09T09:30:23.461Z">
+<meta property="og:image" content="http://yoursite.com/2021/08/07/swin-transformer学习/0.png">
+<meta property="og:image" content="http://yoursite.com/2021/08/07/swin-transformer学习/1.png">
+<meta property="og:image" content="http://yoursite.com/2021/08/07/swin-transformer学习/2.png">
+<meta property="og:updated_time" content="2021-08-07T10:42:11.498Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="openpyxl">
-<meta name="twitter:description" content="关于Pyhton将数据写入excel表今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。">
+<meta name="twitter:title" content="swin-transformer学习">
+<meta name="twitter:description" content="由于只是点实在是太多了，做一下swin-transformer学习的记录">
+<meta name="twitter:image" content="http://yoursite.com/2021/08/07/swin-transformer学习/0.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -145,31 +149,45 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-openpyxl" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-swin-transformer学习" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      openpyxl
+      swin-transformer学习
     </h1>
   
 
         
-        <a href="/2019/05/02/openpyxl/" class="archive-article-date">
-  	<time datetime="2019-05-02T14:46:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
+        <a href="/2021/08/07/swin-transformer学习/" class="archive-article-date">
+  	<time datetime="2021-08-07T09:55:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="关于Pyhton将数据写入excel表"><a href="#关于Pyhton将数据写入excel表" class="headerlink" title="关于Pyhton将数据写入excel表"></a>关于Pyhton将数据写入excel表</h1><p>今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。<br><a id="more"></a></p>
-<h2 id="openyxl"><a href="#openyxl" class="headerlink" title="openyxl"></a>openyxl</h2><p>之前找了半天才找到的比较好用的库，先直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def WriteExcel(data, colIndex, sheet):</span><br><span class="line">	wb = openpyxl.load_workbook(&quot;路径&quot;)</span><br><span class="line">	ws = wb.get_sheet_by_name(sheet)</span><br><span class="line">	for i in range(len(data)):</span><br><span class="line">		ws.cell(row=i+1, column=colIndex).value = float(data[i])</span><br><span class="line">	wb.save(&quot;路径&quot;)</span><br></pre></td></tr></table></figure></p>
-<p>这里写的是把list写入excel的一列，wb.get_sheet_by_name(sheet)中参数是工作簿的名称。<br>cell(row=i+1, column=colIndex).value = float(data[i])中cell函数的参数就是行和列，直接更改他的value属性就可以了。不过要注意的是，row和col最小的取值是1，和平日的大部分索引不同。</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>openxyl只能读取xlsx格式的表格<br>错误提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InvalidFileException: openpyxl does not support the old .xls file format, please use xlrd to read this file, or convert it to the more recent .xlsx file format.</span><br></pre></td></tr></table></figure></p>
-<h2 id="最后，祈求在我学会神经网络之前不要再让我建模了！！！"><a href="#最后，祈求在我学会神经网络之前不要再让我建模了！！！" class="headerlink" title="最后，祈求在我学会神经网络之前不要再让我建模了！！！"></a>最后，祈求在我学会神经网络之前不要再让我建模了！！！</h2>
+        <p>由于只是点实在是太多了，做一下swin-transformer学习的记录</p>
+<a id="more"></a>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h2><p>swin-transformer是在vit提出以后的升级版，传统的vit有几个问题：</p>
+<p>1.图像分辨率增加的话，像素点变多attention的计算会大大的增加</p>
+<p>2.由于最终结果分辨率不够，不适合于做object-detection的任务</p>
+<p>原文是这样说的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">These qualities of Swin Transformer make it compatible with a broad range of vision tasks,including image classification and dense prediction tasks such as object detection and semantic segmentation</span><br></pre></td></tr></table></figure>
+<p>改进后的swin-transformer可以进行深度预测以及目标检测的工作。</p>
+<p>swin-transformer提出了将像素分窗口计算的想法，特征图切割后单独计算attention，减少了计算量。</p>
+<p><img src="/2021/08/07/swin-transformer学习/0.png" alt="swin-transformer示意图"></p>
+<p>更高分辨率的像素点也更加适合做目标检测的工作。</p>
+<h2 id="2-SWT结构"><a href="#2-SWT结构" class="headerlink" title="2.SWT结构"></a>2.SWT结构</h2><p><img src="/2021/08/07/swin-transformer学习/1.png" alt="swin-transformer整体结构"></p>
+<p>整体还是层次化的设计，每一层stage的结束都会有一个patch merging作为下采样，缩小特征图的分辨率扩大感受野。</p>
+<p>开始的patch embedding与VIT的结构一样，将图像切割成多块后再展平形成多个token</p>
+<h3 id="patch-embedding"><a href="#patch-embedding" class="headerlink" title="patch embedding"></a>patch embedding</h3><p><img src="/2021/08/07/swin-transformer学习/2.png" alt="patch embedding"></p>
+<p>他的实现也非常简单，利用一层卷积核和步长均为patch size的卷积层就可以完成划分了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class patch_embd(nn.Module):</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    [b,c,h,w] -&gt; [b,fc,fh,fw]</span><br><span class="line">    利用卷积核和步长为为patch_size的卷积实现patch embedding</span><br><span class="line">    最终得到特征图长*宽个token向量</span><br><span class="line">    Args:</span><br><span class="line">        img_size:[特征图长度, 特征图宽度]</span><br><span class="line">        patch_size:每一个token向量的长宽</span><br><span class="line">        norm:可以选择layernorm或者batchnorm</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    def __init__(self, img_size, patch_size, in_channel, out_channel, norm=None):</span><br><span class="line">        super(patch_embd, self).__init__()</span><br><span class="line">        self.img_length = img_size[0]</span><br><span class="line">        self.img_width = img_size[1]</span><br><span class="line">        self.patch_size = patch_size</span><br><span class="line"></span><br><span class="line">        self.conv_embd = nn.Conv2d(in_channel, out_channel, kernel_size=patch_size, stride=patch_size)</span><br><span class="line"></span><br><span class="line">        if norm is not None:</span><br><span class="line">            self.norm = norm(out_channel)</span><br><span class="line">        else:</span><br><span class="line">            self.norm = None</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        out = self.conv_embd(x)</span><br><span class="line">        if self.norm is not None:</span><br><span class="line">            out = self.norm(out)</span><br><span class="line">        return out</span><br></pre></td></tr></table></figure>
+<h3 id="Window-Partition-Reverse"><a href="#Window-Partition-Reverse" class="headerlink" title="Window Partition/Reverse"></a>Window Partition/Reverse</h3><p>此操作就是将原本的特征图进行窗口的划分</p>
+
       
 
       
@@ -213,15 +231,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Pyhton</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">swin-transformer</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">openpyxl</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Big-Digital</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">detection</a>
         		</li>
       		
 		</ul>
@@ -277,7 +291,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/02/openpyxl/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/08/07/swin-transformer学习/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -291,18 +305,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/05/05/看着整整神经网络/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          看着整整神经网络
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/29/First-Blog/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">First Blog</div>
+    <a href="/2021/08/05/mmdetection配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mmdetection配置</div>
       <i class="icon-circle-right"></i>
     </a>
   

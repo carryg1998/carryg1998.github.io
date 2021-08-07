@@ -6,20 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>openpyxl | Blog</title>
+  <title>Tag: swin-transformer | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于Pyhton将数据写入excel表今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。">
-<meta name="keywords" content="Pyhton,openpyxl,Big-Digital">
-<meta property="og:type" content="article">
-<meta property="og:title" content="openpyxl">
-<meta property="og:url" content="http://yoursite.com/2019/05/02/openpyxl/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Blog">
+<meta property="og:url" content="http://yoursite.com/tags/swin-transformer/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="关于Pyhton将数据写入excel表今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-09T09:30:23.461Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="openpyxl">
-<meta name="twitter:description" content="关于Pyhton将数据写入excel表今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。">
+<meta name="twitter:title" content="Blog">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -145,197 +140,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-openpyxl" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      openpyxl
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2021" class="archive-year">2021</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/08/07/swin-transformer学习/" class="archive-article-date">
+  	<time datetime="2021-08-07T09:55:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-07</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/08/07/swin-transformer学习/">swin-transformer学习</a>
     </h1>
   
 
-        
-        <a href="/2019/05/02/openpyxl/" class="archive-article-date">
-  	<time datetime="2019-05-02T14:46:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="关于Pyhton将数据写入excel表"><a href="#关于Pyhton将数据写入excel表" class="headerlink" title="关于Pyhton将数据写入excel表"></a>关于Pyhton将数据写入excel表</h1><p>今天被强迫性建模，处理数据后又忘记了怎么把数据写入excel表格，现找到了之前的源码复制粘贴，还是在这里记录一下吧以后方便copy。<br><a id="more"></a></p>
-<h2 id="openyxl"><a href="#openyxl" class="headerlink" title="openyxl"></a>openyxl</h2><p>之前找了半天才找到的比较好用的库，先直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def WriteExcel(data, colIndex, sheet):</span><br><span class="line">	wb = openpyxl.load_workbook(&quot;路径&quot;)</span><br><span class="line">	ws = wb.get_sheet_by_name(sheet)</span><br><span class="line">	for i in range(len(data)):</span><br><span class="line">		ws.cell(row=i+1, column=colIndex).value = float(data[i])</span><br><span class="line">	wb.save(&quot;路径&quot;)</span><br></pre></td></tr></table></figure></p>
-<p>这里写的是把list写入excel的一列，wb.get_sheet_by_name(sheet)中参数是工作簿的名称。<br>cell(row=i+1, column=colIndex).value = float(data[i])中cell函数的参数就是行和列，直接更改他的value属性就可以了。不过要注意的是，row和col最小的取值是1，和平日的大部分索引不同。</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>openxyl只能读取xlsx格式的表格<br>错误提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InvalidFileException: openpyxl does not support the old .xls file format, please use xlrd to read this file, or convert it to the more recent .xlsx file format.</span><br></pre></td></tr></table></figure></p>
-<h2 id="最后，祈求在我学会神经网络之前不要再让我建模了！！！"><a href="#最后，祈求在我学会神经网络之前不要再让我建模了！！！" class="headerlink" title="最后，祈求在我学会神经网络之前不要再让我建模了！！！"></a>最后，祈求在我学会神经网络之前不要再让我建模了！！！</h2>
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/zhifubao.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/weixin.png">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Pyhton</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">swin-transformer</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">openpyxl</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Big-Digital</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">detection</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/02/openpyxl/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/05/05/看着整整神经网络/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          看着整整神经网络
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/04/29/First-Blog/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">First Blog</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -358,9 +220,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
