@@ -154,9 +154,9 @@
     
     
     
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
-    
       <category term="GAN" scheme="http://yoursite.com/tags/GAN/"/>
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
     
   </entry>
   
