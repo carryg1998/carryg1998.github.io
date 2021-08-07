@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://yoursite.com/2021/08/07/swin-transformer学习/0.png">
 <meta property="og:image" content="http://yoursite.com/2021/08/07/swin-transformer学习/1.png">
 <meta property="og:image" content="http://yoursite.com/2021/08/07/swin-transformer学习/2.png">
-<meta property="og:updated_time" content="2021-08-07T10:42:11.498Z">
+<meta property="og:updated_time" content="2021-08-07T11:06:22.819Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="swin-transformer学习">
 <meta name="twitter:description" content="由于只是点实在是太多了，做一下swin-transformer学习的记录">
@@ -187,7 +187,8 @@
 <p>他的实现也非常简单，利用一层卷积核和步长均为patch size的卷积层就可以完成划分了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class patch_embd(nn.Module):</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    [b,c,h,w] -&gt; [b,fc,fh,fw]</span><br><span class="line">    利用卷积核和步长为为patch_size的卷积实现patch embedding</span><br><span class="line">    最终得到特征图长*宽个token向量</span><br><span class="line">    Args:</span><br><span class="line">        img_size:[特征图长度, 特征图宽度]</span><br><span class="line">        patch_size:每一个token向量的长宽</span><br><span class="line">        norm:可以选择layernorm或者batchnorm</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    def __init__(self, img_size, patch_size, in_channel, out_channel, norm=None):</span><br><span class="line">        super(patch_embd, self).__init__()</span><br><span class="line">        self.img_length = img_size[0]</span><br><span class="line">        self.img_width = img_size[1]</span><br><span class="line">        self.patch_size = patch_size</span><br><span class="line"></span><br><span class="line">        self.conv_embd = nn.Conv2d(in_channel, out_channel, kernel_size=patch_size, stride=patch_size)</span><br><span class="line"></span><br><span class="line">        if norm is not None:</span><br><span class="line">            self.norm = norm(out_channel)</span><br><span class="line">        else:</span><br><span class="line">            self.norm = None</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        out = self.conv_embd(x)</span><br><span class="line">        if self.norm is not None:</span><br><span class="line">            out = self.norm(out)</span><br><span class="line">        return out</span><br></pre></td></tr></table></figure>
 <h3 id="Window-Partition-Reverse"><a href="#Window-Partition-Reverse" class="headerlink" title="Window Partition/Reverse"></a>Window Partition/Reverse</h3><p>此操作就是将原本的特征图进行窗口的划分</p>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def window_partition(x, window_size):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    将token划分为多个window，[b,c,h,w] -&gt; [b, c, -1, window_size, window_size]</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    B, C, H, W = x.shape</span><br><span class="line">    x = x.view(B, C, H // window_size, window_size, W // window_size, window_size)</span><br><span class="line">    windows = x.permute(0, 1, 2, 4, 3, 5).contiguous().view(B, C, -1, window_size, window_size)</span><br><span class="line">    return windows</span><br><span class="line"></span><br><span class="line">def window_reverse(windows, window_size, H, W):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    还原窗口化</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    B, C = windows.shape[0], windows.shape[1]</span><br><span class="line">    x = windows.view(B, C, H // window_size, W // window_size, window_size, window_size)</span><br><span class="line">    x = x.permute(0, 1, 2, 4, 3, 5).contiguous().view(B, C, H, W)</span><br><span class="line">    return x</span><br></pre></td></tr></table></figure>
+<h3 id="Windows-Attention"><a href="#Windows-Attention" class="headerlink" title="Windows Attention"></a>Windows Attention</h3>
       
 
       
@@ -454,18 +455,6 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">First</a>
               </li>
              
@@ -486,6 +475,14 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
@@ -495,6 +492,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">mmdetection</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">swin-transformer</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">detection</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -510,11 +515,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">swin-transformer</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">detection</a>
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -526,11 +527,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">腾讯安全</a>
+                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+                <a href="javascript:void(0)" class="js-tag color4">CNN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Flask</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -546,15 +551,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+                <a href="javascript:void(0)" class="js-tag color5">腾讯安全</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CNN</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Flask</a>
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
             
             <div class="clearfix"></div>
@@ -699,20 +700,5 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -95,27 +95,6 @@
 
   
   <url>
-    <loc>http://yoursite.com/tags/GAN/</loc>
-    <lastmod>2021-08-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/tags/Python/</loc>
-    <lastmod>2021-08-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/tags/%E7%88%AC%E8%99%AB/</loc>
-    <lastmod>2021-08-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/tags/First/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
@@ -151,6 +130,20 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/tags/Python/</loc>
+    <lastmod>2021-08-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/GAN/</loc>
+    <lastmod>2021-08-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/tags/Linux/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
@@ -166,6 +159,20 @@
   
   <url>
     <loc>http://yoursite.com/tags/mmdetection/</loc>
+    <lastmod>2021-08-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/swin-transformer/</loc>
+    <lastmod>2021-08-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/detection/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -193,14 +200,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/swin-transformer/</loc>
-    <lastmod>2021-08-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/tags/detection/</loc>
+    <loc>http://yoursite.com/tags/%E7%88%AC%E8%99%AB/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -221,14 +221,21 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E8%85%BE%E8%AE%AF%E5%AE%89%E5%85%A8/</loc>
+    <loc>http://yoursite.com/tags/YOLO/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>http://yoursite.com/tags/CNN/</loc>
+    <lastmod>2021-08-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/Flask/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -256,21 +263,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/YOLO/</loc>
+    <loc>http://yoursite.com/tags/%E8%85%BE%E8%AE%AF%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/CNN/</loc>
-    <lastmod>2021-08-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/tags/Flask/</loc>
+    <loc>http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2021-08-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
