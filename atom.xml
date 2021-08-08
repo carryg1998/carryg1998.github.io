@@ -131,9 +131,9 @@
     
     
     
-      <category term="LSTM" scheme="http://yoursite.com/tags/LSTM/"/>
-    
       <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+      <category term="LSTM" scheme="http://yoursite.com/tags/LSTM/"/>
     
   </entry>
   
@@ -154,9 +154,9 @@
     
     
     
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
-    
       <category term="GAN" scheme="http://yoursite.com/tags/GAN/"/>
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
     
   </entry>
   
