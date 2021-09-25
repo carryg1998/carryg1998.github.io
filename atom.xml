@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-08-12T08:44:28.482Z</updated>
+  <updated>2021-09-25T02:49:00.083Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>读取预训练的backbone权重</title>
+    <link href="http://yoursite.com/2021/09/25/%E8%AF%BB%E5%8F%96%E9%A2%84%E8%AE%AD%E7%BB%83%E7%9A%84backbone%E6%9D%83%E9%87%8D/"/>
+    <id>http://yoursite.com/2021/09/25/%E8%AF%BB%E5%8F%96%E9%A2%84%E8%AE%AD%E7%BB%83%E7%9A%84backbone%E6%9D%83%E9%87%8D/</id>
+    <published>2021-09-25T02:37:00.000Z</published>
+    <updated>2021-09-25T02:49:00.083Z</updated>
+    
+    <content type="html"><![CDATA[<p>在对目标检测的backbone预训练以后，为了方便正式训练读取权重，将代码记录下来</p><a id="more"></a><p>以yolov4为例</p><p><img src="/2021/09/25/读取预训练的backbone权重/1.png" alt="1"></p><p>给CSPDarkNet加入预测头利用ImageNet进行预训练</p><p>训练以后的权重文件：</p><p><img src="/2021/09/25/读取预训练的backbone权重/2.png" alt="2"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">model_path = &quot;model_data/CSPDarkNet.pth&quot;</span><br><span class="line">print(&apos;Loading weights into state dict...&apos;)</span><br><span class="line">device = torch.device(&apos;cuda&apos; if torch.cuda.is_available() else &apos;cpu&apos;)</span><br><span class="line">model_dict = model.state_dict()</span><br><span class="line">pretrained_dict = torch.load(model_path, map_location=device)</span><br><span class="line"># pretrained_dict = &#123;k: v for k, v in pretrained_dict.items() if np.shape(model_dict[k]) ==  np.shape(v)&#125;</span><br><span class="line">for k, v in list(pretrained_dict.items()):</span><br><span class="line">    k = k.replace(&quot;module&quot;, &quot;backbone&quot;)#将原本权重中的模型名改为backbone与原本的目标检测模型中的名字对应</span><br><span class="line">    try:</span><br><span class="line">        if np.shape(model_dict[k]) == np.shape(v):  #判断尺度是否相等</span><br><span class="line">            pretrained_dict[k] = v</span><br><span class="line">            model_dict[k] = v</span><br><span class="line">    except Exception as e:#打印没有加载成功的参数权重</span><br><span class="line">        print(e)</span><br><span class="line"># model_dict.update(pretrained_dict)</span><br><span class="line">model.load_state_dict(model_dict)</span><br><span class="line">print(&apos;Finished!&apos;)</span><br></pre></td></tr></table></figure><p>最后打印出尺度不同的权重值</p><p><img src="/2021/09/25/读取预训练的backbone权重/3.png" alt="3"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在对目标检测的backbone预训练以后，为了方便正式训练读取权重，将代码记录下来&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="Pytorch" scheme="http://yoursite.com/tags/Pytorch/"/>
+    
+      <category term="深度学习" scheme="http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>swin-transformer学习</title>
@@ -154,9 +177,9 @@
     
     
     
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
-    
       <category term="GAN" scheme="http://yoursite.com/tags/GAN/"/>
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
     
   </entry>
   
