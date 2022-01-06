@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://yoursite.com/2022/01/02/基于线性分类模型的遗传算法最佳数据范围选择模型/2.png">
 <meta property="og:image" content="http://yoursite.com/2022/01/02/基于线性分类模型的遗传算法最佳数据范围选择模型/3.png">
 <meta property="og:image" content="http://yoursite.com/2022/01/02/基于线性分类模型的遗传算法最佳数据范围选择模型/4.png">
-<meta property="og:updated_time" content="2022-01-02T12:50:05.646Z">
+<meta property="og:updated_time" content="2022-01-03T09:15:45.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于线性分类模型的遗传算法最佳数据范围选择模型">
 <meta name="twitter:description" content="利用训练好的线性回归模型作为评估标准设计的求数据范围的遗传算法模型。">
@@ -173,6 +173,7 @@
         <p>利用训练好的线性回归模型作为评估标准设计的求数据范围的遗传算法模型。</p>
 <a id="more"></a>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>为了求得最佳数据范围类型的题目，常使用遗传算法以优胜劣汰的思想进行数据的多次迭代变化以进行数据择优处理。</p>
+<p>github地址:<a href="https://github.com/carryg1998/Gentic_RF" target="_blank" rel="noopener">https://github.com/carryg1998/Gentic_RF</a></p>
 <h3 id="第一步：训练线性回归模型"><a href="#第一步：训练线性回归模型" class="headerlink" title="第一步：训练线性回归模型"></a>第一步：训练线性回归模型</h3><p>训练合适的线性回归模型，此处采用随机森林建立预测模型，以经典的波士顿房价作为数据集进行训练模型。</p>
 <p>利用随机森林的oob样本结果数据直接作为评估结果，最后选择出最合适的参数作为最后训练结束的模型。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line">from sklearn.datasets import load_boston</span><br><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">boston_data = load_boston()</span><br><span class="line"></span><br><span class="line">print(pd.DataFrame(boston_data.data, columns=boston_data.feature_names).describe())</span><br><span class="line"></span><br><span class="line">rf = RandomForestRegressor(n_estimators=20, max_depth=8, criterion=&quot;mse&quot;, oob_score=True)</span><br><span class="line">rf.fit(boston_data.data, boston_data.target)</span><br><span class="line"></span><br><span class="line">print(rf.oob_score_)</span><br></pre></td></tr></table></figure>
@@ -186,7 +187,7 @@
 <h4 id="迭代过程"><a href="#迭代过程" class="headerlink" title="迭代过程"></a>迭代过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">def fit_one_gen_iter(self, rand_data, gen_num, v_range, sort, test_data=None, test_label=None):</span><br><span class="line">    &quot;&quot;&quot;&quot;</span><br><span class="line">    单次遗传迭代</span><br><span class="line">    args:</span><br><span class="line">        rand_data:要进行变异的随机数据数量</span><br><span class="line">        gen_num:每次变异的基因数量</span><br><span class="line">        v_range:数值变异范围</span><br><span class="line">        sort:+1为取低值，-1为取高值</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    data_total = self.data.shape[0]</span><br><span class="line">    gen_total = self.data.shape[1]</span><br><span class="line"></span><br><span class="line">    g_data = self.random_Genetic(rand_data, gen_num)</span><br><span class="line">    v_data = self.random_variation(rand_data, gen_num, v_range)</span><br><span class="line">    new_data = np.row_stack((v_data, g_data))</span><br><span class="line">    new_data = np.row_stack((self.data, new_data))</span><br><span class="line"></span><br><span class="line">    np.random.shuffle(new_data)</span><br><span class="line"></span><br><span class="line">    res = &#123;&#125;</span><br><span class="line">    all_res = 0</span><br><span class="line"></span><br><span class="line">    this_res = self.estimate(new_data)</span><br><span class="line">    new_data_label = np.c_[new_data, this_res]</span><br><span class="line">    new_data_label = new_data_label[np.argsort(sort*new_data_label[:, -1], axis=0)]</span><br><span class="line">    new_data_label = np.delete(new_data_label, -1, axis=1)</span><br><span class="line">    print(&quot;mean res:&quot;, this_res.mean())</span><br><span class="line"></span><br><span class="line">    res_data = new_data_label[:data_total]</span><br><span class="line"></span><br><span class="line">    return res_data</span><br></pre></td></tr></table></figure>
 <p>在完成遗传和变异后的数值变化，将所有新产生的数据与原始数据合并在一起，放入训练好的线性回归模型中进行预测，并根据结果进行重新排名(可以降序也可以升序)，最后取前n个结果作为新数据返回(n为原始数据集的数量)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def gen_iter(self, iteration, rand_data, gen_num, v_range, sort):</span><br><span class="line">    for i in range(iteration):</span><br><span class="line">        self.data = self.fit_one_gen_iter(rand_data, gen_num, v_range, sort=sort)</span><br><span class="line">        print(&quot;iteration:&quot;, str(i + 1), &quot;finished&quot;)</span><br><span class="line"></span><br><span class="line">    return self.data</span><br></pre></td></tr></table></figure>
-<h3 id="第三步：运行全部程序产看结果"><a href="#第三步：运行全部程序产看结果" class="headerlink" title="第三步：运行全部程序产看结果"></a>第三步：运行全部程序产看结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line">from sklearn.datasets import load_boston</span><br><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">from Gentic_algo import Gentic_RF</span><br><span class="line"></span><br><span class="line">boston_data = load_boston()</span><br><span class="line"></span><br><span class="line">print(pd.DataFrame(boston_data.data, columns=boston_data.feature_names).describe())</span><br><span class="line"></span><br><span class="line">rf = RandomForestRegressor(n_estimators=20, max_depth=8, criterion=&quot;mse&quot;, oob_score=True)</span><br><span class="line">rf.fit(boston_data.data, boston_data.target)</span><br><span class="line"></span><br><span class="line">GF = Gentic_RF(data=boston_data.data, rf_model=rf)</span><br><span class="line">res = GF.gen_iter(iteration=10, rand_data=100, gen_num=5, v_range=0.1, sort=1)</span><br><span class="line"></span><br><span class="line">print(pd.DataFrame(res, columns=boston_data.feature_names).describe())</span><br></pre></td></tr></table></figure>
+<h3 id="第三步：运行全部程序查看结果"><a href="#第三步：运行全部程序查看结果" class="headerlink" title="第三步：运行全部程序查看结果"></a>第三步：运行全部程序查看结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line">from sklearn.datasets import load_boston</span><br><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">from Gentic_algo import Gentic_RF</span><br><span class="line"></span><br><span class="line">boston_data = load_boston()</span><br><span class="line"></span><br><span class="line">print(pd.DataFrame(boston_data.data, columns=boston_data.feature_names).describe())</span><br><span class="line"></span><br><span class="line">rf = RandomForestRegressor(n_estimators=20, max_depth=8, criterion=&quot;mse&quot;, oob_score=True)</span><br><span class="line">rf.fit(boston_data.data, boston_data.target)</span><br><span class="line"></span><br><span class="line">GF = Gentic_RF(data=boston_data.data, rf_model=rf)</span><br><span class="line">res = GF.gen_iter(iteration=10, rand_data=100, gen_num=5, v_range=0.1, sort=1)</span><br><span class="line"></span><br><span class="line">print(pd.DataFrame(res, columns=boston_data.feature_names).describe())</span><br></pre></td></tr></table></figure>
 <p>选择取低值，即寻找房价低的范围，迭代10次过程如图</p>
 <p><img src="/2022/01/02/基于线性分类模型的遗传算法最佳数据范围选择模型/2.png" alt="示意图"></p>
 <p>遗传算法前后数据概述如下</p>
@@ -472,14 +473,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">swin-transformer</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">detection</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
               </li>
              
@@ -488,27 +481,35 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Python</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">swin-transformer</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">detection</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">LSTM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wxml</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">目标检测</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">mmdetection</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -524,18 +525,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wxml</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">LSTM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
               </li>
              
@@ -548,11 +537,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">腾讯安全</a>
+                <a href="javascript:void(0)" class="js-tag color5">遗传算法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+                <a href="javascript:void(0)" class="js-tag color5">线性回归</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -576,11 +565,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">遗传算法</a>
+                <a href="javascript:void(0)" class="js-tag color5">腾讯安全</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">线性回归</a>
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">目标检测</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">mmdetection</a>
               </li>
             
             <div class="clearfix"></div>
