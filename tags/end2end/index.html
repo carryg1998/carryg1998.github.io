@@ -6,32 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>NMS相关综述与one-proposal的改进 | Blog</title>
+  <title>Tag: end2end | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="nms相关综述与one-proposal的改进">
-<meta name="keywords" content="NMS">
-<meta property="og:type" content="article">
-<meta property="og:title" content="NMS相关综述与one-proposal的改进">
-<meta property="og:url" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Blog">
+<meta property="og:url" content="http://yoursite.com/tags/end2end/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="nms相关综述与one-proposal的改进">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/0.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/1.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/2.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/3.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/4.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/5.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/6.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/7.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/8.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/9.png">
-<meta property="og:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/10.png">
-<meta property="og:updated_time" content="2022-11-14T08:34:40.508Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NMS相关综述与one-proposal的改进">
-<meta name="twitter:description" content="nms相关综述与one-proposal的改进">
-<meta name="twitter:image" content="http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/0.png">
+<meta name="twitter:title" content="Blog">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -157,223 +140,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-NMS相关综述与one-proposal的改进" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      NMS相关综述与one-proposal的改进
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2023" class="archive-year">2023</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2023/04/23/精读Iter2记录/" class="archive-article-date">
+  	<time datetime="2023-04-23T11:15:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-23</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2023/04/23/精读Iter2记录/">精读Iter2记录</a>
     </h1>
   
 
-        
-        <a href="/2022/11/14/NMS相关综述与one-proposal的改进/" class="archive-article-date">
-  	<time datetime="2022-11-14T01:43:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>nms相关综述与one-proposal的改进</p>
-<a id="more"></a>
-<h1 id="NMS-非极大抑制-发展概述"><a href="#NMS-非极大抑制-发展概述" class="headerlink" title="NMS(非极大抑制)发展概述"></a>NMS(非极大抑制)发展概述</h1><p>本篇对NMS的发展进行简单概括</p>
-<h2 id="1-Greedy-NMS"><a href="#1-Greedy-NMS" class="headerlink" title="1.Greedy-NMS"></a>1.Greedy-NMS</h2><p>NMS本质作用就是判断多个框是否属于同一物体并对冗余的预测框进行剔除。</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/0.png" alt="QQ截图20221114094927"></p>
-<p>传统的NMS通过IOU计算俩个预测框的交并比，将大于阈值Nt的框认定为同一物体，当然这里得到Nt是事先设定好的常数值。</p>
-<p>这样造成的问题就是，在复杂拥挤场景中很多正确的预测框会被当做高度重合物体的统一预测框而抑制</p>
-<h2 id="2-Soft-NMS"><a href="#2-Soft-NMS" class="headerlink" title="2.Soft-NMS"></a>2.Soft-NMS</h2><p>Soft-NMS的提出考虑到了复杂场景中的物体高度重合的问题，顾名思义，在此方法中，对于重合框的抑制不再使用暴力置0的手段，而是通过decay公式的方法对预测框的置信度做一个衰减的操作。</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/1.png" alt="1"></p>
-<p>Soft-NMS中提出俩个衰减公式</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/2.png" alt="2"></p>
-<p>第一个公式衰减权重与物体与其重叠框的iou相关</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/3.png" alt="3"></p>
-<p>第二个衰减公式加入了可控的超参数</p>
-<h2 id="3-Adaptive-NMS"><a href="#3-Adaptive-NMS" class="headerlink" title="3.Adaptive-NMS"></a>3.Adaptive-NMS</h2><p>2019年adaptive-nms面世，作者引入了密度的概念，对于每个框预测一个密度，根据密度决定是否进行置信度的衰减。</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/4.png" alt="4"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当对象位于拥挤区域时，增加NMS阈值以保持具有高重叠的相邻检测似乎是人群场景中NMS的一个有希望的解决方案。同样明显的是，稀疏区域中高度重叠的提案应该被删除，因为它们更有可能是误报。</span><br></pre></td></tr></table></figure>
-<p>其中密度的预测为了包含更多的语义信息，原文在RPN后加入了三层卷积，将RPN对于框的分类和回归的预测结果concat以后作为密度预测网络的输入。</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/5.png" alt="5"></p>
-<p>值得一提的是，密度是基于框的，密度预测从提议框的特征信息中得到，随后为每一个提议框预测一个密度值，随后根据密度值决定是否触发soft-nms。</p>
-<p>伪代码如下：</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/6.png" alt="6"></p>
-<h2 id="4-NOH-NMS"><a href="#4-NOH-NMS" class="headerlink" title="4.NOH-NMS"></a>4.NOH-NMS</h2><p>对本文理解处于浅尝辄止的水平，包括代码也没有精读，并且他的核心点也不是对于NMS的改进。</p>
-<p>NOH的全称是Nearby Objects Hallucination，本文的核心思想是对于每一个框中，包含了附近高度重合的物体的线索(clue)，于是作者基于已有的框进行一次额外的中心位置和宽高的预测。</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/7.png" alt="7"></p>
-<p>由于Nearby Objects Hallucination的预测不一定是准确的，所以利用了高斯分布的公式对其置信度进行一定程度的衰减，公式如下。</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/8.png" alt="8"></p>
-<p>NOH中的NMS的触发也与密度有关，但是NOH中的密度预测直接在ROI Align出来后的特征图总经过简单的全连接完成的预测</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/9.png" alt="9"></p>
-<h2 id="5-one-proposal-multiple-prediction-set-nms"><a href="#5-one-proposal-multiple-prediction-set-nms" class="headerlink" title="5.one proposal multiple prediction(set-nms)"></a>5.one proposal multiple prediction(set-nms)</h2><p>目前行人检测中anchor-base模型的终极形态，对每一个提议框进行俩次并行的预测，有一个提议框进行俩次检测头的预测，最终得到俩个预测框，并且对于同一个提议框中得到俩个预测框分为同一个组(set)，同一组中的预测框不进行NMS的抑制。并且加入了refinement模块处理减少假阳性的出现。</p>
-<p><img src="/2022/11/14/NMS相关综述与one-proposal的改进/10.png" alt="10"></p>
-<p>理论简单易懂，没啥可说的。</p>
-<h2 id="6-adaptive-nms的小实验"><a href="#6-adaptive-nms的小实验" class="headerlink" title="6.adaptive-nms的小实验"></a>6.adaptive-nms的小实验</h2><p>我把adaptive加进one proposal中进行强行融合，对于非同组的预测框且密度大于阈值的框进行soft-nms的置信度衰减，效果确实立竿见影，AP50涨了个0.5吧。</p>
-<p>核心代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">def set_adaptive_cpu_nms(dets, density, thresh):</span><br><span class="line">    &quot;&quot;&quot;Pure Python NMS baseline.&quot;&quot;&quot;</span><br><span class="line">    def _overlap(det_boxes, basement, others):</span><br><span class="line">        eps = 1e-8</span><br><span class="line">        x1_basement, y1_basement, x2_basement, y2_basement \</span><br><span class="line">                = det_boxes[basement, 0], det_boxes[basement, 1], \</span><br><span class="line">                  det_boxes[basement, 2], det_boxes[basement, 3]</span><br><span class="line">        x1_others, y1_others, x2_others, y2_others \</span><br><span class="line">                = det_boxes[others, 0], det_boxes[others, 1], \</span><br><span class="line">                  det_boxes[others, 2], det_boxes[others, 3]</span><br><span class="line">        areas_basement = (x2_basement - x1_basement) * (y2_basement - y1_basement)</span><br><span class="line">        areas_others = (x2_others - x1_others) * (y2_others - y1_others)</span><br><span class="line">        xx1 = np.maximum(x1_basement, x1_others)</span><br><span class="line">        yy1 = np.maximum(y1_basement, y1_others)</span><br><span class="line">        xx2 = np.minimum(x2_basement, x2_others)</span><br><span class="line">        yy2 = np.minimum(y2_basement, y2_others)</span><br><span class="line">        w = np.maximum(0.0, xx2 - xx1)</span><br><span class="line">        h = np.maximum(0.0, yy2 - yy1)</span><br><span class="line">        inter = w * h</span><br><span class="line">        ovr = inter / (areas_basement + areas_others - inter + eps)</span><br><span class="line">        return ovr</span><br><span class="line">    scores = dets[:, 4]</span><br><span class="line">    order = np.argsort(-scores)</span><br><span class="line">    dets = dets[order]</span><br><span class="line"></span><br><span class="line">    numbers = dets[:, -1]</span><br><span class="line">    keep = np.ones(len(dets)) == 1</span><br><span class="line">    # 用于记录剩余没有被处理的预测框</span><br><span class="line">    ruler = np.arange(len(dets))</span><br><span class="line">    while ruler.size&gt;0:</span><br><span class="line">        basement = ruler[0]</span><br><span class="line">        ruler=ruler[1:]</span><br><span class="line">        num = numbers[basement]</span><br><span class="line">        # calculate the body overlap</span><br><span class="line">        overlap = _overlap(dets[:, :4], basement, ruler)</span><br><span class="line"></span><br><span class="line">        #noh</span><br><span class="line">        if density[basement // 2] &gt;= 0.3:</span><br><span class="line">            sigma = 0.4</span><br><span class="line">            iou_indices = np.where(overlap &gt; thresh)[0]</span><br><span class="line">            decay_scores = scores.copy()</span><br><span class="line">            inter = overlap[iou_indices]</span><br><span class="line">            # decay_scores[iou_indices] = decay_scores[iou_indices] * (1 - overlap[iou_indices])</span><br><span class="line">            decay_scores[iou_indices] = np.exp(-(inter * inter) / sigma) * decay_scores[iou_indices]</span><br><span class="line">            indices = iou_indices[np.in1d(iou_indices, np.where(decay_scores &lt; 0.3))]</span><br><span class="line">        else:</span><br><span class="line">            # 计算base与所有其他框的iou</span><br><span class="line">            indices = np.where(overlap &gt; thresh)[0]</span><br><span class="line">        </span><br><span class="line">        # 找到是否有同一proposal出来的预测实例</span><br><span class="line">        loc = np.where(numbers[ruler][indices] == num)[0]</span><br><span class="line">        # the mask won&apos;t change in the step(同一预测框的mask)</span><br><span class="line">        # loc获得同一组提议框的index，如果有mask为True</span><br><span class="line">        mask = keep[ruler[indices][loc]]#.copy()</span><br><span class="line">        keep[ruler[indices]] = False</span><br><span class="line">        keep[ruler[indices][loc][mask]] = True</span><br><span class="line">        ruler[~keep[ruler]] = -1</span><br><span class="line">        ruler = ruler[ruler&gt;0]</span><br><span class="line">    keep = keep[np.argsort(order)]</span><br><span class="line">    return keep</span><br></pre></td></tr></table></figure>
-<p>在YOLOv4中加入也是涨了0.5个点，我怀疑就那么几个框能刚好被adaptive的公式保留下来。</p>
-<h2 id="7-总结"><a href="#7-总结" class="headerlink" title="7.总结"></a>7.总结</h2><p>nms的发展历程就是想尽各种办法保留复杂场景中被错误抑制的预测框的过程。</p>
-<p>目前Sparse问世，标志着anchor-base在行人检测中可能已经走到头了，后续的目标检测中end-to-end可能成为大方向了。</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/zhifubao.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/weixin.png">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">NMS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">目标检测</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">end2end</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/11/14/NMS相关综述与one-proposal的改进/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2023/04/23/精读Iter2记录/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          精读Iter2记录
-        
-      </div>
-    </a>
   
   
-    <a href="/2022/01/02/基于线性分类模型的遗传算法最佳数据范围选择模型/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">基于线性分类模型的遗传算法最佳数据范围选择模型</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -396,9 +220,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
